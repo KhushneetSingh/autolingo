@@ -1,6 +1,8 @@
 name: autolingo
-description: A Dart CLI package for AutoLingo.
-version: 0.0.1
+description: Zero-config Flutter localization CLI. Scan your app for UI strings, generate ARB files, and translate with Lingo.dev.
+version: 0.1.0
+homepage: https://github.com/KhushneetSingh/autolingo
+repository: https://github.com/KhushneetSingh/autolingo
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
