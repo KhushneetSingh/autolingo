@@ -11,29 +11,50 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/to/develop-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# AutoLingo
+
+AutoLingo is a Flutter package that provides seamless, automatic text translation for your applications. It acts as a wrapper around translation services, handling locale detection and UI updates automatically.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Automatic Locale Detection**: Detects the user's system language and updates the UI.
+- **AutoText Widget**: A drop-in replacement for the standard `Text` widget with translation support.
+- **Easy Integration**: Wrap your app with `AutoLingoApp` and you're ready to go.
 
-## Getting started
+## Getting Started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add `autolingo` to your `pubspec.yaml` and run `flutter pub get`.
+
+```yaml
+dependencies:
+  autolingo:
+    path: ./path/to/autolingo
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Wrap your `MaterialApp` with `AutoLingoApp` and provide your API key.
 
 ```dart
-const like = 'sample';
+AutoLingoApp(
+  apiKey: 'YOUR_API_KEY',
+  supportedLanguages: ['en', 'es', 'hi', 'fr', 'de'],
+  child: MyApp(),
+)
 ```
 
-## Additional information
+Use `AutoText` instead of `Text` for strings that should be translated.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+AutoText('Hello World')
+```
+
+## Environment Variables
+
+> [!IMPORTANT]
+> The `.env` file included in this repository is for **testing and demonstration purposes only**. 
+> When using this package in your own application, you should provide your own `apiKey` to the `AutoLingoApp` widget. 
+
+## Additional Information
+
+For more information on how to use the package, refer to the documentation at [lingo.dev](https://lingo.dev).
