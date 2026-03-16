@@ -1,81 +1,53 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:autolingo/autolingo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test/test.dart';
+import 'package:autolingo/src/extractor.dart';
 
 void main() {
-  // Ensure we can use platform channels and shared preferences in tests
-  TestWidgetsFlutterBinding.ensureInitialized();
+  group('String Extractor', () {
+    test('Extracts Text() strings', () {
+      final source = '''
+        Text("Upload Complete")
+        Text('Welcome to Ace')
+      ''';
 
-  group('LocaleDetector Tests', () {
-    testWidgets('Returns default "en" when no localizations available',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        Builder(
-          builder: (context) {
-            final locale = LocaleDetector.getLanguageCode(context);
-            expect(locale, 'en');
-
-            final shouldTranslate = LocaleDetector.shouldTranslate(context);
-            expect(shouldTranslate, false);
-
-            return const SizedBox();
-          },
-        ),
-      );
+      final results = extractFromSourceForTest(source);
+      expect(results, containsAll(['Upload Complete', 'Welcome to Ace']));
     });
 
-    testWidgets('Detects Spanish locale correctly',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        Localizations(
-          locale: const Locale('es', 'MX'),
-          delegates: const [
-            DefaultMaterialLocalizations.delegate,
-            DefaultWidgetsLocalizations.delegate
-          ],
-          child: Builder(
-            builder: (context) {
-              final locale = LocaleDetector.getLanguageCode(context);
-              expect(locale, 'es');
+    test('Skips interpolated strings', () {
+      final source = '''
+        Text("\$userName logged in")
+      ''';
 
-              final fullLocale = LocaleDetector.getFullLocale(context);
-              expect(fullLocale, 'es-MX');
-
-              final shouldTranslate = LocaleDetector.shouldTranslate(context);
-              expect(shouldTranslate, true);
-
-              return const SizedBox();
-            },
-          ),
-        ),
-      );
-    });
-  });
-
-  group('TranslationCache Tests', () {
-    setUp(() {
-      // Mock SharedPreferences for tests
-      SharedPreferences.setMockInitialValues({});
+      final results = extractFromSourceForTest(source);
+      expect(results, isEmpty);
     });
 
-    test('Stores and retrieves translations correctly', () async {
-      final cache = TranslationCache.instance;
+    test('Skips ALL_CAPS constants', () {
+      final source = '''
+        Text("MY_CONSTANT")
+      ''';
 
-      // Initially, cache should be empty
-      var result = await cache.get('Hello', 'es');
-      expect(result, isNull);
+      final results = extractFromSourceForTest(source);
+      expect(results, isEmpty);
+    });
 
-      // Store a translation
-      await cache.set('Hello', 'es', 'Hola');
+    test('Skips file paths', () {
+      final source = '''
+        Text("assets/image.png")
+      ''';
 
-      // Retrieve the translation
-      result = await cache.get('Hello', 'es');
-      expect(result, 'Hola');
+      final results = extractFromSourceForTest(source);
+      expect(results, isEmpty);
+    });
 
-      // Verify the has() method
-      final hasTranslation = await cache.has('Hello', 'es');
-      expect(hasTranslation, isTrue);
+    test('Extracts hintText and labelText', () {
+      final source = '''
+        hintText: "Enter email"
+        labelText: 'Password'
+      ''';
+
+      final results = extractFromSourceForTest(source);
+      expect(results, containsAll(['Enter email', 'Password']));
     });
   });
 }

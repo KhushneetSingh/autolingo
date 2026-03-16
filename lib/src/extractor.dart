@@ -72,6 +72,12 @@ final List<RegExp> _patterns = [
   ),
 ];
 
+/// Public test helper — extracts strings from a raw Dart source string.
+///
+/// This is the same logic used by [extractStrings] but operates on a single
+/// source string rather than scanning files on disk.
+List<String> extractFromSourceForTest(String source) => _extractFromSource(source);
+
 /// Runs all [_patterns] against [source] and returns the matched strings,
 /// already filtered through [_shouldSkip].
 List<String> _extractFromSource(String source) {
