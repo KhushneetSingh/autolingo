@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:autolingo/src/cli_style.dart';
+
 /// Shells out to `npx lingo.dev run` and streams its output in real-time.
 ///
 /// If the process exits with a non-zero code, stderr is printed and the
 /// current Dart process terminates with exit code 1.
 Future<void> runLingoTranslate() async {
-  print('Running Lingo.dev translation...');
+  Ansi.header('AutoLingo', 'translator');
+  Ansi.info('Running Lingo.dev translation...');
+  Ansi.gap();
 
   // Use Process.start() so stdout/stderr can be streamed as they arrive,
   // giving the user live progress instead of waiting for the process to finish.
@@ -22,9 +26,12 @@ Future<void> runLingoTranslate() async {
   final exitCode = await process.exitCode;
 
   if (exitCode != 0) {
-    stderr.writeln('\nTranslation failed (exit code $exitCode).');
+    Ansi.gap();
+    Ansi.error('Translation failed ${Ansi.dim('(exit code $exitCode)')}');
     exit(1);
   }
 
-  print('\nTranslation complete! Check your l10n/ folder.');
+  Ansi.gap();
+  Ansi.success('Translation complete! Check your ${Ansi.bold('l10n/')} folder.');
+  Ansi.gap();
 }

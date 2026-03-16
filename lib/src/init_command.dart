@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:autolingo/src/cli_style.dart';
+
 /// Scaffolds the files needed to use AutoLingo + Lingo.dev in a Flutter project.
 ///
 /// Creates the following (skipping any that already exist):
@@ -8,15 +10,17 @@ import 'dart:io';
 /// - `./l10n.yaml`      — Flutter localisation config
 /// - `./.lingo`         — Lingo.dev project config (JSON)
 Future<void> runInit() async {
+  Ansi.header('AutoLingo', 'project setup');
+
   // -------------------------------------------------------------------------
   // 1. Create the l10n/ directory
   // -------------------------------------------------------------------------
   final l10nDir = Directory('l10n');
   if (!l10nDir.existsSync()) {
     l10nDir.createSync(recursive: true);
-    print('Created l10n/');
+    Ansi.success('Created ${Ansi.bold('l10n/')}');
   } else {
-    print('Skipped l10n/ (already exists)');
+    Ansi.info('Skipped ${Ansi.bold('l10n/')} ${Ansi.dim('(already exists)')}');
   }
 
   // -------------------------------------------------------------------------
@@ -48,7 +52,8 @@ output-localization-file: app_localizations.dart
   // -------------------------------------------------------------------------
   // Done
   // -------------------------------------------------------------------------
-  print('\nDone! Now run: autolingo generate');
+  Ansi.hint("Now run: ${Ansi.yellow("'autolingo generate'")}");
+  Ansi.gap();
 }
 
 // ---------------------------------------------------------------------------
@@ -59,9 +64,9 @@ output-localization-file: app_localizations.dart
 Future<void> _writeIfAbsent(String path, String content) async {
   final file = File(path);
   if (file.existsSync()) {
-    print('Skipped $path (already exists)');
+    Ansi.info('Skipped ${Ansi.bold(path)} ${Ansi.dim('(already exists)')}');
     return;
   }
   file.writeAsStringSync(content);
-  print('Created $path');
+  Ansi.success('Created ${Ansi.bold(path)}');
 }

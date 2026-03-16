@@ -25,11 +25,11 @@ Future<List<String>> extractStrings(String dirPath) async {
     final content = file.readAsStringSync();
     final extracted = _extractFromSource(content);
 
-    print('Scanning: ${file.path}  →  ${extracted.length} string(s) found');
+
     foundStrings.addAll(extracted);
   }
 
-  print('\nTotal unique strings after deduplication: ${foundStrings.length}\n');
+
 
   return foundStrings.toList()..sort();
 }
