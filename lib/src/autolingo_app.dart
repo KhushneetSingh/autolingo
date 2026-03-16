@@ -2,17 +2,23 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'translation_service.dart';
 
-/// An InheritedWidget that holds the TranslationService for the descendant widget tree.
+/// An InheritedWidget that holds the [TranslationService] and [debugMode] flag
+/// for the descendant widget tree.
 class AutoLingoProvider extends InheritedWidget {
   final TranslationService translationService;
+
+  /// When true, [AutoText] widgets that have not yet received a translation
+  /// will be highlighted in yellow for easy identification during development.
+  final bool debugMode;
 
   const AutoLingoProvider({
     super.key,
     required this.translationService,
+    required this.debugMode,
     required super.child,
   });
 
-  /// Allows descendant widgets to access the TranslationService.
+  /// Allows descendant widgets to access the [TranslationService].
   static TranslationService of(BuildContext context) {
     final provider =
         context.dependOnInheritedWidgetOfExactType<AutoLingoProvider>();
@@ -23,10 +29,17 @@ class AutoLingoProvider extends InheritedWidget {
     return provider.translationService;
   }
 
+  /// Returns whether debug mode is enabled. Returns false if no provider found.
+  static bool isDebugMode(BuildContext context) {
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<AutoLingoProvider>();
+    return provider?.debugMode ?? false;
+  }
+
   @override
   bool updateShouldNotify(AutoLingoProvider oldWidget) {
-    // Only notify if the service instance itself changes
-    return translationService != oldWidget.translationService;
+    return translationService != oldWidget.translationService ||
+        debugMode != oldWidget.debugMode;
   }
 }
 
@@ -36,19 +49,27 @@ class AutoLingoApp extends StatefulWidget {
   final String apiKey;
   final List<String> supportedLanguages;
 
+  /// When set to `true`, [AutoText] widgets that are still showing the original
+  /// (untranslated) string will be highlighted with a yellow background,
+  /// making it easy to spot missing translations during development.
+  ///
+  /// Defaults to `false`. Do **not** enable in production builds.
+  final bool debugMode;
+
   const AutoLingoApp({
     super.key,
     required this.apiKey,
     required this.supportedLanguages,
     required this.child,
+    this.debugMode = false,
   });
 
-  /// Exposes the TranslationService to the widget tree
+  /// Exposes the [TranslationService] to the widget tree.
   static TranslationService of(BuildContext context) {
     return AutoLingoProvider.of(context);
   }
 
-  /// Helper to get the required localization delegates for MaterialApp/CupertinoApp
+  /// Helper to get the required localization delegates for MaterialApp/CupertinoApp.
   static List<LocalizationsDelegate<dynamic>> get localizationsDelegates {
     return const [
       GlobalMaterialLocalizations.delegate,
@@ -57,7 +78,7 @@ class AutoLingoApp extends StatefulWidget {
     ];
   }
 
-  /// Helper to get generic Locale objects from language strings
+  /// Helper to get generic [Locale] objects from language code strings.
   static Iterable<Locale> supportedLocales(List<String> languageCodes) {
     return languageCodes.map((code) => Locale(code));
   }
@@ -78,7 +99,6 @@ class _AutoLingoAppState extends State<AutoLingoApp> {
   @override
   void didUpdateWidget(AutoLingoApp oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Re-initialize service if API key changes
     if (oldWidget.apiKey != widget.apiKey) {
       _translationService = TranslationService(widget.apiKey);
     }
@@ -88,9 +108,7 @@ class _AutoLingoAppState extends State<AutoLingoApp> {
   Widget build(BuildContext context) {
     return AutoLingoProvider(
       translationService: _translationService,
-      // Wrap the child with a builder to inject localizations if the user hasn't already done so
-      // in their own MaterialApp/CupertinoApp. (AutoLingoApp should ideally wrap MaterialApp directly
-      // or sit just above it).
+      debugMode: widget.debugMode,
       child: widget.child,
     );
   }

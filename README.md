@@ -1,60 +1,67 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# autolingo
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+**Drop-in Flutter widget that auto-translates your UI into the user's language — no backend changes needed.**
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+---
 
-# AutoLingo
+## Before / After
 
-AutoLingo is a Flutter package that provides seamless, automatic text translation for your applications. It acts as a wrapper around translation services, handling locale detection and UI updates automatically.
+```dart
+// Before — static text
+Text('Welcome')
 
-## Features
-
-- **Automatic Locale Detection**: Detects the user's system language and updates the UI.
-- **AutoText Widget**: A drop-in replacement for the standard `Text` widget with translation support.
-- **Easy Integration**: Wrap your app with `AutoLingoApp` and you're ready to go.
-
-## Getting Started
-
-Add `autolingo` to your `pubspec.yaml` and run `flutter pub get`.
-
-```yaml
-dependencies:
-  autolingo:
-    path: ./path/to/autolingo
+// After — auto-translated
+AutoText('Welcome')   // renders in the user's system language
 ```
 
-## Usage
+---
 
-Wrap your `MaterialApp` with `AutoLingoApp` and provide your API key.
+## Installation
+
+```bash
+flutter pub add autolingo
+```
+
+---
+
+## Quick Start
+
+Wrap your app once, then use `AutoText` anywhere:
 
 ```dart
 AutoLingoApp(
-  apiKey: 'YOUR_API_KEY',
-  supportedLanguages: ['en', 'es', 'hi', 'fr', 'de'],
-  child: MyApp(),
+  apiKey: 'YOUR_LINGO_API_KEY',
+  supportedLanguages: const ['en', 'es', 'hi', 'fr', 'de'],
+  child: MaterialApp(home: MyHomePage()),
 )
 ```
 
-Use `AutoText` instead of `Text` for strings that should be translated.
+---
 
-```dart
-AutoText('Hello World')
-```
+## How It Works
 
-## Environment Variables
+- **Locale detection** — reads the device's system language at runtime.
+- **Automatic translation** — sends strings to Lingo.dev when a non-English locale is detected.
+- **Caching** — results are stored in `SharedPreferences`; repeated strings cost zero API calls.
+- **Safe fallback** — on timeout or error, the original English text is shown silently (no crashes).
+- **Debug mode** — pass `debugMode: true` to highlight untranslated strings in yellow.
 
-> [!IMPORTANT]
-> The `.env` file included in this repository is for **testing and demonstration purposes only**. 
-> When using this package in your own application, you should provide your own `apiKey` to the `AutoLingoApp` widget. 
+---
 
-## Additional Information
+## Supported Languages
 
-For more information on how to use the package, refer to the documentation at [lingo.dev](https://lingo.dev).
+| Code | Language |
+|------|----------|
+| `en` | English  |
+| `es` | Spanish  |
+| `hi` | Hindi    |
+| `fr` | French   |
+| `de` | German   |
+
+Add any language supported by Lingo.dev by including its code in `supportedLanguages`.
+
+---
+
+[![Built at Hackathon](https://img.shields.io/badge/Built%20at%20Hackathon-Lingo.dev-blueviolet?style=flat-square)](https://lingo.dev)
+
+

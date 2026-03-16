@@ -41,17 +41,19 @@ class AutoText extends StatefulWidget {
 
 class _AutoTextState extends State<AutoText> {
   late String _displayText;
+
+  /// True while a translation request is in-flight.
   bool _isTranslating = false;
 
-  // We'll use a mocked API key for now if the TranslationService isn't passed down
-  // In a real implementation this should be injected or accessed via InheritedWidget/Provider.
-  // For the sake of this component, we'll instantiate a placeholder.
+  /// True once a successful translation has been stored in [_displayText].
+  /// Used by debug mode to decide whether to show the yellow highlight.
+  bool _isTranslated = false;
+
   late TranslationService _translationService;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Retrieve the service from our provider
     _translationService = AutoLingoProvider.of(context);
   }
 
@@ -59,7 +61,6 @@ class _AutoTextState extends State<AutoText> {
   void initState() {
     super.initState();
     _displayText = widget.data;
-
     _translateIfNeeded();
   }
 
@@ -68,12 +69,12 @@ class _AutoTextState extends State<AutoText> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.data != widget.data) {
       _displayText = widget.data;
+      _isTranslated = false;
       _translateIfNeeded();
     }
   }
 
   Future<void> _translateIfNeeded() async {
-    // Only run when we have access to context (to check locale)
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
 
@@ -90,45 +91,18 @@ class _AutoTextState extends State<AutoText> {
           setState(() {
             _displayText = translatedText;
             _isTranslating = false;
+            // Mark as translated only when the result differs from the source.
+            _isTranslated = translatedText != widget.data;
           });
         }
       }
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (_isTranslating) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            widget.data, // Shows original text while translating
-            style: widget.style,
-            strutStyle: widget.strutStyle,
-            textAlign: widget.textAlign,
-            textDirection: widget.textDirection,
-            locale: widget.locale,
-            softWrap: widget.softWrap,
-            overflow: widget.overflow,
-            maxLines: widget.maxLines,
-            semanticsLabel: widget.semanticsLabel,
-            textWidthBasis: widget.textWidthBasis,
-            textHeightBehavior: widget.textHeightBehavior,
-            selectionColor: widget.selectionColor,
-          ),
-          const SizedBox(width: 8),
-          const SizedBox(
-            width: 12,
-            height: 12,
-            child: CircularProgressIndicator(strokeWidth: 2),
-          ),
-        ],
-      );
-    }
-
+  /// Builds a [Text] widget with all the forwarded parameters.
+  Widget _buildText(String text) {
     return Text(
-      _displayText,
+      text,
       style: widget.style,
       strutStyle: widget.strutStyle,
       textAlign: widget.textAlign,
@@ -142,5 +116,48 @@ class _AutoTextState extends State<AutoText> {
       textHeightBehavior: widget.textHeightBehavior,
       selectionColor: widget.selectionColor,
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final debugMode = AutoLingoProvider.isDebugMode(context);
+
+    if (_isTranslating) {
+      // Show original text + a small spinner while waiting for the API.
+      final loadingContent = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildText(widget.data),
+          const SizedBox(width: 8),
+          const SizedBox(
+            width: 12,
+            height: 12,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ],
+      );
+
+      // In debug mode wrap with yellow highlight even while loading.
+      if (debugMode) {
+        return ColoredBox(
+          color: Colors.yellow.withOpacity(0.4),
+          child: loadingContent,
+        );
+      }
+      return loadingContent;
+    }
+
+    final textWidget = _buildText(_displayText);
+
+    // In debug mode, highlight strings that are still showing the original
+    // English (i.e. translation was skipped or failed silently).
+    if (debugMode && !_isTranslated && LocaleDetector.shouldTranslate(context)) {
+      return ColoredBox(
+        color: Colors.yellow.withOpacity(0.4),
+        child: textWidget,
+      );
+    }
+
+    return textWidget;
   }
 }
