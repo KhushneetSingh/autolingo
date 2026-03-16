@@ -13,6 +13,7 @@
 
 [![Dart](https://img.shields.io/badge/Dart-3.0%2B-0175C2?style=flat-square&logo=dart)](https://dart.dev)
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter)](https://flutter.dev)
+[![pub package](https://img.shields.io/pub/v/autolingo?style=flat-square&logo=dart&color=00B4AB)](https://pub.dev/packages/autolingo)
 [![Lingo.dev](https://img.shields.io/badge/Powered%20by-Lingo.dev-6C47FF?style=flat-square)](https://lingo.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Built at Hackathon](https://img.shields.io/badge/Built%20at-Hackathon%202026-FF6B6B?style=flat-square)](#)
@@ -104,9 +105,13 @@ autolingo translate  # 30 seconds
 
 ### Install AutoLingo
 
+[![pub package](https://img.shields.io/pub/v/autolingo.svg)](https://pub.dev/packages/autolingo)
+
 ```bash
 dart pub global activate autolingo
 ```
+
+> 📦 **[View on pub.dev →](https://pub.dev/packages/autolingo)**
 
 Add Dart's pub cache to your PATH if needed:
 
@@ -492,6 +497,6 @@ Built with ❤️ at **Hackathon 2026**
 
 Powered by [Lingo.dev](https://lingo.dev) — open-source AI-powered i18n
 
-[⭐ Star this repo](https://github.com/KhushneetSingh/autolingo) · [🐛 Report a bug](https://github.com/KhushneetSingh/autolingo/issues)
+[📦 pub.dev](https://pub.dev/packages/autolingo) · [⭐ Star this repo](https://github.com/KhushneetSingh/autolingo) · [🐛 Report a bug](https://github.com/KhushneetSingh/autolingo/issues)
 
 </div>

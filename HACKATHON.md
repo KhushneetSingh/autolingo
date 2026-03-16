@@ -15,6 +15,8 @@
 
 **🏆 Hackathon Project · Built with [Lingo.dev](https://lingo.dev)**
 
+[![pub package](https://img.shields.io/pub/v/autolingo.svg)](https://pub.dev/packages/autolingo)
+
 </div>
 
 ---
@@ -100,8 +102,10 @@ Translation complete in 28 seconds.
 
 ## 🛠️ Install & Run
 
+> 📦 **Available on [pub.dev →](https://pub.dev/packages/autolingo)**
+
 ```bash
-# Install
+# Install from pub.dev
 dart pub global activate autolingo
 
 # Inside any Flutter project
@@ -161,7 +165,7 @@ Flutter's localization system is actually great. The problem is the _workflow_ t
 ## 🤝 Contribute
 
 ```bash
-git clone https://github.com/yourusername/autolingo
+git clone https://github.com/KhushneetSingh/autolingo
 cd autolingo
 dart pub get
 
@@ -179,7 +183,7 @@ The codebase is tiny and intentionally readable. `extractor.dart` is the interes
 
 Extraction → ARB → Translation → Done
 
-[GitHub](https://github.com/KhushneetSingh/autolingo) · [Lingo.dev](https://lingo.dev) · MIT License
+[📦 pub.dev](https://pub.dev/packages/autolingo) · [GitHub](https://github.com/KhushneetSingh/autolingo) · [Lingo.dev](https://lingo.dev) · MIT License
 
 _If this saved you time, leave a ⭐_
 

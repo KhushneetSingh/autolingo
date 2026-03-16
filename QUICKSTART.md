@@ -6,6 +6,7 @@
 
 [![Dart](https://img.shields.io/badge/Dart-3.0%2B-0175C2?style=flat-square&logo=dart)](https://dart.dev)
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter)](https://flutter.dev)
+[![pub package](https://img.shields.io/pub/v/autolingo?style=flat-square&logo=dart&color=00B4AB)](https://pub.dev/packages/autolingo)
 [![Powered by Lingo.dev](https://img.shields.io/badge/Powered%20by-Lingo.dev-6C47FF?style=flat-square)](https://lingo.dev)
 
 </div>
@@ -23,6 +24,8 @@ That's it. Your Flutter app now speaks Spanish, Hindi, French, German, and more.
 ---
 
 ## Install
+
+> 📦 **[View on pub.dev →](https://pub.dev/packages/autolingo)**
 
 ```bash
 dart pub global activate autolingo
@@ -131,6 +134,6 @@ autolingo/
 
 <div align="center">
 
-Built at **Hackathon 2024** · Powered by [Lingo.dev](https://lingo.dev) · MIT License
+Built at **Hackathon 2026** · [📦 pub.dev](https://pub.dev/packages/autolingo) · [Lingo.dev](https://lingo.dev) · MIT License
 
 </div>
