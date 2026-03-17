@@ -7,7 +7,7 @@ import 'package:autolingo/src/extractor.dart';
 import 'package:autolingo/src/init_command.dart';
 import 'package:autolingo/src/lingo_runner.dart';
 
-const _version = '0.1.0';
+const _version = '0.1.3';
 const _scanDir = './lib';
 const _arbOutput = './l10n/app_en.arb';
 

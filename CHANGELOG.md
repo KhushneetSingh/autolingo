@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 — 2026-03-17
+
+### Fixed
+
+- Fixed `--version` flag showing `v0.1.0` instead of the actual release version
+
 ## 0.1.2 — 2026-03-17
 
 ### Fixed
