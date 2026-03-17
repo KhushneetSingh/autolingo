@@ -26,6 +26,10 @@ Just run three commands.
 
 <br/>
 
+[![AutoLingo Demo Video](https://img.youtube.com/vi/qefoILrnuYA/0.jpg)](https://youtu.be/qefoILrnuYA)
+
+<br/>
+
 [Getting Started](#-getting-started) · [How It Works](#-how-it-works) · [CLI Reference](#-cli-reference) · [Demo](#-demo) · [Contributing](#-contributing)
 
 </div>
@@ -416,6 +420,8 @@ Add more in `i18n.json`:
 ## 🎬 Demo
 
 > _Watch AutoLingo localize a full Flutter app in under 60 seconds_
+
+[![AutoLingo Demo Video](https://img.youtube.com/vi/qefoILrnuYA/0.jpg)](https://youtu.be/qefoILrnuYA)
 
 1. App launches in **English** (hardcoded strings)
 2. `autolingo init && autolingo generate && autolingo translate`
