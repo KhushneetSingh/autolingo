@@ -8,7 +8,7 @@ import 'package:autolingo/src/cli_style.dart';
 /// Creates the following (skipping any that already exist):
 /// - `./l10n/`          — ARB output directory
 /// - `./l10n.yaml`      — Flutter localisation config
-/// - `./.lingo`         — Lingo.dev project config (JSON)
+/// - `./i18n.json`      — Lingo.dev project config (JSON)
 Future<void> runInit() async {
   Ansi.header('AutoLingo', 'project setup');
 
@@ -34,20 +34,24 @@ output-localization-file: app_localizations.dart
   await _writeIfAbsent('l10n.yaml', l10nYamlContent);
 
   // -------------------------------------------------------------------------
-  // 3. Write .lingo (Lingo.dev project configuration)
+  // 3. Write i18n.json (Lingo.dev project configuration)
   // -------------------------------------------------------------------------
   final lingoConfig = {
-    'sourceLocale': 'en',
-    'targetLocales': ['es', 'hi', 'fr', 'de', 'pt'],
-    'files': {
-      'flutter-arb': {
-        'include': ['l10n/app_{locale}.arb'],
+    r'$schema': 'https://lingo.dev/schema/i18n.json',
+    'version': '1.15',
+    'locale': {
+      'source': 'en',
+      'targets': ['es', 'hi', 'fr', 'de', 'pt'],
+    },
+    'buckets': {
+      'flutter': {
+        'include': ['l10n/[locale].arb'],
       },
     },
   };
 
   const encoder = JsonEncoder.withIndent('  ');
-  await _writeIfAbsent('.lingo', encoder.convert(lingoConfig));
+  await _writeIfAbsent('i18n.json', encoder.convert(lingoConfig));
 
   // -------------------------------------------------------------------------
   // Done

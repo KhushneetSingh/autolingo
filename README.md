@@ -316,7 +316,7 @@ Text(AppLocalizations.of(context)!.uploadComplete)
                        ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                 Lingo.dev AI Translation                    │
-│  Reads en.arb → translates to es, hi, fr, de, pt           │
+│  Reads en.arb → translates to es, hi, fr, de, pt            │
 │  Writes one ARB file per language                           │
 └──────────────────────┬──────────────────────────────────────┘
                        │  flutter gen-l10n
