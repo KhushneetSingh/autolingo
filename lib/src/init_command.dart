@@ -45,7 +45,7 @@ output-localization-file: app_localizations.dart
     },
     'buckets': {
       'flutter': {
-        'include': ['l10n/[locale].arb'],
+        'include': ['l10n/app_[locale].arb'],
       },
     },
   };

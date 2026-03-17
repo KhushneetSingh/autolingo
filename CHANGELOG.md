@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 — 2026-03-17
+
+### Fixed
+
+- Fixed ARB file path pattern in generated `i18n.json` from `[locale].arb` to `app_[locale].arb` to match Flutter's standard naming convention
+
 ## 0.1.1 — 2026-03-17
 
 ### Fixes

@@ -1,6 +1,6 @@
 name: autolingo
 description: Zero-config Flutter localization CLI. Scan your app for UI strings, generate ARB files, and translate with Lingo.dev.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/KhushneetSingh/autolingo
 repository: https://github.com/KhushneetSingh/autolingo
 
